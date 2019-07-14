@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Intro to vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{title}}</h1>
+        <p v-once>{{firstName}}</p>
+        <a v-bind:href="linkToHome" target="_blank">to philip site</a>
+    </div>
+</body>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            title: 'Hello World!',
+            firstName: 'Philip',
+            linkToHome: 'http://philip-popov.eu'
+        }
+    });
+</script>
+</html>
+

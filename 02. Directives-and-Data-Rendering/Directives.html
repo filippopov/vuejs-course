@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Directives</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <div id="app">
+        <div v-text="message"></div>
+        <button v-on:click="alert('Clicked!')">Show</button>
+        <p v-if="showContent">{{text}}</p>
+        <p v-else>The value is somthing else</p>
+        <template v-if="showContent">
+            <hi>{{user.fullName}}</hi>
+            <hi>{{user.email}}</hi>
+            <hi>{{user.description}}</hi>
+        </template>
+        <p v-show="showContent">{{text}}</p>
+        <ul>
+            <li v-for="item in user">{{item}}</li>
+        </ul>
+        <ul>
+            <li v-for="(fruit, index) in fruits" v-key="index">
+                {{index}} -- {{fruit.type}}
+            </li>
+        </ul>
+        <ul>
+            <li v-for="num in 10">{{num}}</li>
+        </ul>
+
+        <p v-bind:class="{odd: isOdd, num: isNum}">{{number}}</p>
+        <p v-bind:class="['odd', {num: isNum}]">{{number}}</p>
+        <p v-bind:style="{color:oddColor, fontSize:oddFontSize}">{{message}}</p>
+        <p v-bind:style="[oddNumColor]">{{message}}</p>
+    </div>
+</body>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hi',
+            showContent: true,
+            text: 'Condition1222',
+            user: {
+                fullName: 'Ivan',
+                email: 'text.aav.bg',
+                description: 'test'
+            },
+            fruits: [
+                {type: 'Kiwi'},
+                {type: 'Apple'}
+            ],
+            number: 10,
+            isOdd: true,
+            isNum: true,
+            oddColor: 'red',
+            oddFontSize: '30px',
+            oddNumColor: {color: 'red'}
+        }
+    });
+</script>
+</html>
+
+<style>
+    .num {
+        font-size: 30px;
+    }
+
+    .odd {
+        color: red;
+    }
+</style>
