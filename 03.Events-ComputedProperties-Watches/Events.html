@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Events</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{counter}}</p>
+        <button v-on:click="counter+=1">ADD</button>
+        <button @click="greet">Say Hello!</button>
+        <p @mouseover="toggle">Toggle Element</p>
+        <button @click="warn('Message', $event)">Submit</button>
+
+        <div @click.stop="click">Click</div>
+        <form @submit.prevent="login">
+            <input type="submit" value="Login">
+            <input type="text" @keyup.enter="showAlert">
+            <input type="text" @keyup.page-down="onPageDown">
+        </form>
+
+        <a href="#" @click.stop.prevent="click">Home</a>
+
+        <p>{{reverseMessage}}</p>
+        <p>{{fullName}}</p>
+        <button @click="changeName">Change</button>
+
+        <p>{{message}}</p>
+        <button @click="message='Changed'">Change</button>
+    </div>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            counter: 0,
+            message: 'Test',
+            firstName: 'Philip',
+            lastName: 'Popov',
+            message: 'Old Message'
+        },
+        methods: {
+            greet: function(event){
+                console.log('hi');
+                if (event) {
+                    alert(event.target);
+                }
+            },
+            toggle (){
+                console.log('opsi');
+            },
+            warn (msg, e){
+                alert(e.target);
+            },
+            click() {
+                console.log('hi from click');
+            },
+            login() {
+                console.log('login form');
+            },
+            showAlert() {
+                alert('show alert');
+            },
+            onPageDown() {
+                alert('on page down');
+            },
+            changeName(){
+                this.fullName = 'Opa Tropa';
+            }
+        },
+        computed: {
+            reverseMessage() {
+                return this.message.split('').reverse().join('');
+            },
+            fullName: {
+                get: function() {
+                    return `${this.firstName} ${this.lastName}`;
+                },
+                set: function(newValue) {
+                    var names = newValue.split(' ');
+                    this.firstName = names[0];
+                    this.lastName = names[1];
+                }
+            }
+        },
+        watch: {
+            message: function(newValue, oldValue) {
+                console.log(newValue);
+                console.log(oldValue);
+            }
+        },
+        created() {
+            this.firstName = 'Ivan';
+            this.lastName = 'Ivanov';
+        }
+    });
+</script>
+</body>
+</html>
