@@ -21,7 +21,7 @@
                     return;
                 }
 
-                this.$emit('add-todo', this.todoName);
+                this.$root.$emit('add-todo', this.todoName);
 
                 this.todoName = '';
             }

@@ -19,15 +19,18 @@
 import AddTodo from './components/AddTodo'
 import CompletedTodo from './components/CompletedTodo'
 import IncompleteTodo from './components/IncompleteTodo'
-import { todos } from './data/todos'
+// import { todos } from './data/todos'
 
 export default {
     name: 'app',
     data(){
         return {
             activeTab: 'incomplete-todo',
-            todoIncrementId: todos.length,
-            todos: todos
+            // todoIncrementId: todos.length,
+            todos: [],
+            todoIncrementId: 0,
+            todoResource: {}
+
         }
     },
     components: {
@@ -48,12 +51,28 @@ export default {
             this.activeTab = tabName;
         },
         onAddTodo(todoName) {
-            this.todos.push({
-                id: this.todoIncrementId++,
-                name: todoName,
+            console.log('hi');
+            this.$http.post('todos', {
+                userId: 1,
+                title: todoName,
                 completed: false,
-                edit: false
+            }).then(res => {
+                console.log(res);
+                this.todos.push({
+                    id: res.body.id,
+                    title: res.body.title,
+                    completed: false,
+                    edit: false
+                });
             });
+
+
+            // this.todos.push({
+            //     id: this.todoIncrementId++,
+            //     name: todoName,
+            //     completed: false,
+            //     edit: false
+            // });
         },
         onCompleteTodo(todoId) {
             let currentTodo = this.getTodo(todoId);
@@ -84,6 +103,7 @@ export default {
             return this.todos.find(x => x.id === todoId);
         },
         addEventListeners() {
+            this.$root.$on('add-todo', this.onAddTodo);
             this.$root.$on('delete-todo', this.onDeleteTodo);
             this.$root.$on('complete-todo', this.onCompleteTodo);
             this.$root.$on('restore-todo', this.onRestoreTodo);
@@ -93,6 +113,21 @@ export default {
     },
     mounted() {
         this.addEventListeners();
+    },
+    created() {
+        const actions = {
+            getTodos: {method: 'get', url: 'todos'},
+            postTodo: {method: 'post', url: 'todos'}
+        };
+
+        this.todoResource = this.$resource("posts", {}, actions);
+
+        this.todoResource.getTodos()
+            .then(res => {
+                this.todos = res.body;
+            }).catch(console.error);
+
+        
     }
 }
 </script>

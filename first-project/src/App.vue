@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+        {{testMessage | reverse | newReverse | hiFromMixin}}
         <timer :message="timerMessage" :number="150" :numbers="[1]" :initial="150" name="eventBus">
             <p>test</p>
             <template #person="slotProps">
@@ -18,6 +19,7 @@
 <script>
 import Timer from './components/Timer'
 import Log from './components/Log'
+import {formatingMixin} from './mixins/formatMixins'
 
 export default {
     name: 'app',
@@ -25,6 +27,7 @@ export default {
         return {
             msg: 'Hi',
             name: 'Gosho',
+            testMessage: 'testt'
         }
     },
     components: {
@@ -35,7 +38,13 @@ export default {
         timerMessage() {
             return 'Hi Popov ' + this.msg;
         }
-    }
+    },
+    filters: {
+        newReverse(value) {
+            return value.split('').reverse().join('');
+        }
+    },
+    mixins: [formatingMixin]
 }
 </script>
 

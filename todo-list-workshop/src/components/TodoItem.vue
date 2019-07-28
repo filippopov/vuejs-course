@@ -1,7 +1,7 @@
 <template>
     <li>
-        <input v-if="todo.edit" @keyup.enter="finishEdit"  type="text" v-model="newName">
-        <label v-else @dblclick="editTodo">{{todo.name}}</label>
+        <input v-focus v-if="todo.edit" @keyup.enter="finishEdit"  type="text" v-model="newName">
+        <label v-else @dblclick="editTodo">{{todo.title}}</label>
 
         <button class="complete" @click="completeTodo(todo.id)">Complete</button>
         <button class="delete" @click="deleteTodo(todo.id)">Delete</button>
@@ -34,6 +34,13 @@
             },
             finishEdit() {
                 this.$root.$emit('finish-edit-todo', Object.assign({}, this.todo, {name: this.newName}));
+            }
+        },
+        directives: {
+            focus: {
+                inserted(el) {
+                    el.focus();
+                }
             }
         }
     }
